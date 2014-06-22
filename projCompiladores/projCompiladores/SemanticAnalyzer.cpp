@@ -100,7 +100,7 @@ void SemanticAnalyzer::analyze(){
 int SemanticAnalyzer::programa(int index){
 	
 	string tokenLido, classeLida, linhaLida, linhaBuffer;
-	
+	pilha->push_back("$");
 	tokenLido = getToken(index);
 	linhaLida = getLinha(index);
 	index++;
@@ -234,11 +234,13 @@ int SemanticAnalyzer::lista_de_identificadores(int index){
 	tokenLido   = getToken(index);
 	classeLida  = getClass(index);
 	index++;
-
+	
 	if(classeLida.compare("Identificador")){
 		cout << "ERRO: "<< linhaLida << "     Esperado um identificador" << endl;
 		exit(1);
 	}
+
+	pilha->push_back(tokenLido);
 
 	index = lista_de_identificadores_auxiliar(index);
 	return index;
@@ -258,6 +260,7 @@ int SemanticAnalyzer::lista_de_identificadores_auxiliar(int index){
 		classeLida  = getClass(index);
 		index++;
 		if(!classeLida.compare("Identificador")){
+			pilha->push_back(tokenLido);
 			index = lista_de_identificadores_auxiliar(index);
 			return index;
 		}else{
@@ -431,6 +434,8 @@ int SemanticAnalyzer::comando_composto(int index){
 		cout <<"ERRO: " << linhaLida << "     Esperado 'end' " << endl;
 		exit(1);
 	}
+
+	removeMark();
 	return index;
 }
 
@@ -481,6 +486,10 @@ int SemanticAnalyzer::comando(int index){
 	linhaLida = getLinha(index);
 
 	if (!classeLida.compare("Identificador")){
+		if(!isThere(tokenLido)){
+			cout << "Identificador " << tokenLido << " não encontrado nesse escopo!" << endl;
+			exit(2);
+		}
 		/* Significa que é um identificador */
 		index++;
 
@@ -582,6 +591,10 @@ int SemanticAnalyzer::variavel(int index){
 		exit(1);
 	}
 
+	if(!isThere(tokenLido)){
+		cout << "Identificador " << tokenLido << " não encontrado nesse escopo!" << endl;
+	}
+
 	return index;
 }
 
@@ -597,6 +610,10 @@ int SemanticAnalyzer::ativacao_de_procedimentos(int index){
 		/* Significa que NÃO começou com identificador */
 		cout << "ERRO: " << linhaLida << " Esperado um identificador" << endl;
 		exit(1);
+	}
+
+	if(!isThere(tokenLido)){
+		cout << "Identificador " << tokenLido << " não encontrado nesse escopo!" << endl;
 	}
 
 	tokenLido = getToken(index);
@@ -742,6 +759,10 @@ int SemanticAnalyzer::fator(int index){
 
 	if (!classeLida.compare("Identificador")){
 		/* Significa que inicia com Identificador */
+
+		if(!isThere(tokenLido)){
+			cout << "Identificador " << tokenLido << " não encontrado nesse escopo!" << endl;
+		}
 
 		tokenLido = getToken(index);
 		classeLida = getClass(index);
