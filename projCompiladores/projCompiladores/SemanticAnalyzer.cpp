@@ -506,7 +506,7 @@ int SemanticAnalyzer::comando(int index){
 	linhaLida = getLinha(index);
 
 	if (!classeLida.compare("Identificador")){
-		if(!isThere(tokenLido)){
+		if(!isSomewhere(tokenLido)){
 			cout << "Identificador " << tokenLido << " não encontrado nesse escopo!" << endl;
 			exit(2);
 		}
@@ -611,7 +611,7 @@ int SemanticAnalyzer::variavel(int index){
 		exit(1);
 	}
 
-	if(!isThere(tokenLido)){
+	if(!isSomewhere(tokenLido)){
 		cout << "Identificador " << tokenLido << " não encontrado nesse escopo!" << endl;
 	}
 
@@ -632,7 +632,7 @@ int SemanticAnalyzer::ativacao_de_procedimentos(int index){
 		exit(1);
 	}
 
-	if(!isThere(tokenLido)){
+	if(!isSomewhere(tokenLido)){
 		cout << "Identificador " << tokenLido << " não encontrado nesse escopo!" << endl;
 	}
 
@@ -780,7 +780,7 @@ int SemanticAnalyzer::fator(int index){
 	if (!classeLida.compare("Identificador")){
 		/* Significa que inicia com Identificador */
 
-		if(!isThere(tokenLido)){
+		if(!isSomewhere(tokenLido)){
 			cout << "Identificador " << tokenLido << " não encontrado nesse escopo!" << endl;
 		}
 
