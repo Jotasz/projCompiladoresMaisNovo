@@ -345,7 +345,12 @@ int SemanticAnalyzer::declaracao_de_subprograma(int index){
 		exit(1);
 	}
 
-	pilha->push_back("$");
+	if(!isThere(tokenLido)){
+		cout << "ERRO: "<< linhaLida << "Redefinição do identificador " << tokenLido << "!" << endl;
+		exit(2);	
+	}
+	
+	pilha->push_back(tokenLido);
 
 	linhaLida   = getLinha(index);
 	tokenLido   = getToken(index);
@@ -356,6 +361,8 @@ int SemanticAnalyzer::declaracao_de_subprograma(int index){
 		cout <<"ERRO: " << linhaLida << "     Esperado identificador " << endl;
 		exit(1);
 	}
+
+	pilha->push_back()
 
 	index = argumentos(index);
 	tokenLido = getToken(index);
