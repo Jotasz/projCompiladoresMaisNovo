@@ -240,6 +240,11 @@ int SemanticAnalyzer::lista_de_identificadores(int index){
 		exit(1);
 	}
 
+	if(!isThere(tokenLido)){
+		cout << "ERRO: "<< linhaLida << "Redefinição do identificador " << tokenLido << "!" << endl;
+		exit(2);
+	}
+
 	pilha->push_back(tokenLido);
 
 	index = lista_de_identificadores_auxiliar(index);
@@ -260,6 +265,11 @@ int SemanticAnalyzer::lista_de_identificadores_auxiliar(int index){
 		classeLida  = getClass(index);
 		index++;
 		if(!classeLida.compare("Identificador")){
+			
+			if(!isThere(tokenLido)){
+				cout << "ERRO: "<< linhaLida << "Redefinição do identificador " << tokenLido << "!" << endl;
+				exit(2);	
+			}
 			pilha->push_back(tokenLido);
 			index = lista_de_identificadores_auxiliar(index);
 			return index;
@@ -326,6 +336,8 @@ int SemanticAnalyzer::declaracao_de_subprograma(int index){
 		cout <<"ERRO: " << linhaLida << "     Esperado 'procedure' " << endl;
 		exit(1);
 	}
+
+	pilha->push_back("$");
 
 	linhaLida   = getLinha(index);
 	tokenLido   = getToken(index);
