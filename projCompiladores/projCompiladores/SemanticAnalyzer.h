@@ -7,10 +7,12 @@ public:
 	/* Funcoes de Classe */
 	SemanticAnalyzer(string filename);
 	~SemanticAnalyzer();
-	/* Funcoes de Leitura */
+	/* Funcoes de Vetores */
 	string getClass(int index);
 	string getToken(int index);
 	string getLinha(int index);
+	bool isThere(string token);
+	void removeMark();
 	/* Funcoes de Sintaxe */
 	void analyze();
 	int programa(int index);
