@@ -1,0 +1,8 @@
+program teste;{ este é um programa de teste e está sendo usado para esse fim }
+var
+	i : integer;
+	j : real;
+	X_I4S_ : real;
+begin
+	for i < 2 to i := 4;
+end.
