@@ -12,6 +12,7 @@ public:
 	string getToken(int index);
 	string getLinha(int index);
 	bool isThere(string token);
+	bool isSomewhere(string token);
 	void removeMark();
 	/* Funcoes de Sintaxe */
 	void analyze();

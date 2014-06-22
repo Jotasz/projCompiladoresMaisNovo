@@ -74,6 +74,14 @@ bool SemanticAnalyzer::isThere(string token){
 	return false;
 }
 
+bool SemanticAnalyzer::isSomewhere(string token){
+	int i;
+	for (i = pilha->size() - 1; i >= 0; i--){
+		if (!pilha->at(i).compare(token)) return true;
+	}
+	return false;
+}
+
 void SemanticAnalyzer::removeMark(){
 	int i;
 	for (i = pilha->size() - 1; i >= 0; i--){
