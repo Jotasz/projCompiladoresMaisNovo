@@ -1,12 +1,12 @@
 #include <cstring>
 #include <fstream>
 #include <string>
-#include "SyntacticAnalyzer.h"
+#include "SemanticAnalyzer.h"
 #include <iostream>
 using namespace std;
 
 /* Funcoes de Classe */
-SyntacticAnalyzer::SyntacticAnalyzer(string filename){
+SemanticAnalyzer::SemanticAnalyzer(string filename){
 	ifstream *file = new ifstream(filename.c_str());
 	string leitura;
 	tokens  = new vector<string>();
@@ -45,27 +45,27 @@ SyntacticAnalyzer::SyntacticAnalyzer(string filename){
 	file->close();
 }
 
-SyntacticAnalyzer::~SyntacticAnalyzer(){
+SemanticAnalyzer::~SemanticAnalyzer(){
 	delete tokens;
 	delete classes;
 	delete linhas;
 }
 
 /* Funcoes de Leitura */
-string SyntacticAnalyzer::getToken(int index){
+string SemanticAnalyzer::getToken(int index){
 	return tokens->at(index);
 }
 
-string SyntacticAnalyzer::getClass(int index){
+string SemanticAnalyzer::getClass(int index){
 	return classes->at(index);
 }
 
-string SyntacticAnalyzer::getLinha(int index){
+string SemanticAnalyzer::getLinha(int index){
 	return linhas->at(index);
 }
 
 /* Funcoes de Sintaxe */
-void SyntacticAnalyzer::analyze(){
+void SemanticAnalyzer::analyze(){
 	int index = 0;
 	index = programa(index);
 	
@@ -79,7 +79,7 @@ void SyntacticAnalyzer::analyze(){
 	}
 }
 
-int SyntacticAnalyzer::programa(int index){
+int SemanticAnalyzer::programa(int index){
 	
 	string tokenLido, classeLida, linhaLida, linhaBuffer;
 	
@@ -121,7 +121,7 @@ int SyntacticAnalyzer::programa(int index){
 	
 }
 
-int SyntacticAnalyzer::declaracoes_variaveis(int index){
+int SemanticAnalyzer::declaracoes_variaveis(int index){
 	
 	string tokenLido, classeLida, linhaLida, linhaBuffer;
 
@@ -135,7 +135,7 @@ int SyntacticAnalyzer::declaracoes_variaveis(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::lista_declaracoes_variaveis(int index){
+int SemanticAnalyzer::lista_declaracoes_variaveis(int index){
 	
 	string tokenLido, classeLida, linhaLida;
 	index = lista_de_identificadores(index);
@@ -175,7 +175,7 @@ int SyntacticAnalyzer::lista_declaracoes_variaveis(int index){
 
 }
 
-int SyntacticAnalyzer::lista_declaracoes_variaveis_auxiliar(int index){
+int SemanticAnalyzer::lista_declaracoes_variaveis_auxiliar(int index){
 	string tokenLido, classeLida, linhaLida;
 
 
@@ -209,7 +209,7 @@ int SyntacticAnalyzer::lista_declaracoes_variaveis_auxiliar(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::lista_de_identificadores(int index){
+int SemanticAnalyzer::lista_de_identificadores(int index){
 	string tokenLido, classeLida, linhaLida;
 	
 	linhaLida   = getLinha(index);
@@ -226,7 +226,7 @@ int SyntacticAnalyzer::lista_de_identificadores(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::lista_de_identificadores_auxiliar(int index){
+int SemanticAnalyzer::lista_de_identificadores_auxiliar(int index){
 	string tokenLido, classeLida, linhaLida;
 	
 	linhaLida   = getLinha(index);
@@ -250,7 +250,7 @@ int SyntacticAnalyzer::lista_de_identificadores_auxiliar(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::tipo(int index){
+int SemanticAnalyzer::tipo(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	linhaLida   = getLinha(index);
@@ -267,13 +267,13 @@ int SyntacticAnalyzer::tipo(int index){
 
 }
 
-int SyntacticAnalyzer::declaracoes_de_subprogramas(int index){
+int SemanticAnalyzer::declaracoes_de_subprogramas(int index){
 	string tokenLido, classeLida, linhaLida;
 	index = declaracoes_de_subprogramas_auxiliar(index);
 	return index;
 }
 
-int SyntacticAnalyzer::declaracoes_de_subprogramas_auxiliar(int index){
+int SemanticAnalyzer::declaracoes_de_subprogramas_auxiliar(int index){
 	string tokenLido, classeLida, linhaLida;
 	
 	//Tenho que verificar se comeca com procedure
@@ -295,7 +295,7 @@ int SyntacticAnalyzer::declaracoes_de_subprogramas_auxiliar(int index){
 	
 }
 
-int SyntacticAnalyzer::declaracao_de_subprograma(int index){
+int SemanticAnalyzer::declaracao_de_subprograma(int index){
 	string tokenLido, classeLida, linhaLida;
 	linhaLida   = getLinha(index);
 	tokenLido   = getToken(index);
@@ -331,7 +331,7 @@ int SyntacticAnalyzer::declaracao_de_subprograma(int index){
 
 }
 
-int SyntacticAnalyzer::argumentos(int index){
+int SemanticAnalyzer::argumentos(int index){
 	string tokenLido, classeLida, linhaLida;
 	linhaLida   = getLinha(index);
 	tokenLido   = getToken(index);
@@ -354,7 +354,7 @@ int SyntacticAnalyzer::argumentos(int index){
 
 }
 
-int SyntacticAnalyzer::lista_de_parametros(int index){
+int SemanticAnalyzer::lista_de_parametros(int index){
 	string tokenLido, classeLida, linhaLida;
 	index = lista_de_identificadores(index);
 	tokenLido = getToken(index);
@@ -368,7 +368,7 @@ int SyntacticAnalyzer::lista_de_parametros(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::lista_de_parametros_auxiliar(int index){
+int SemanticAnalyzer::lista_de_parametros_auxiliar(int index){
 	string tokenLido, classeLida, linhaLida;
 	linhaLida   = getLinha(index);
 	tokenLido   = getToken(index);
@@ -394,7 +394,7 @@ int SyntacticAnalyzer::lista_de_parametros_auxiliar(int index){
 	}
 }
 
-int SyntacticAnalyzer::comando_composto(int index){
+int SemanticAnalyzer::comando_composto(int index){
 	string tokenLido, classeLida, linhaLida;
 	linhaLida   = getLinha(index);
 	tokenLido   = getToken(index);
@@ -416,7 +416,7 @@ int SyntacticAnalyzer::comando_composto(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::comandos_opcionais(int index){
+int SemanticAnalyzer::comandos_opcionais(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -432,12 +432,12 @@ int SyntacticAnalyzer::comandos_opcionais(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::lista_de_comandos(int index){
+int SemanticAnalyzer::lista_de_comandos(int index){
 	index = comando(index);
 	index = lista_de_comandos_auxiliar(index);
 	return index;
 }
-int SyntacticAnalyzer::lista_de_comandos_auxiliar(int index){
+int SemanticAnalyzer::lista_de_comandos_auxiliar(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -455,7 +455,7 @@ int SyntacticAnalyzer::lista_de_comandos_auxiliar(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::comando(int index){
+int SemanticAnalyzer::comando(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -533,7 +533,7 @@ int SyntacticAnalyzer::comando(int index){
 	exit(1);
 }
 
-int SyntacticAnalyzer::parte_else(int index){
+int SemanticAnalyzer::parte_else(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -550,7 +550,7 @@ int SyntacticAnalyzer::parte_else(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::variavel(int index){
+int SemanticAnalyzer::variavel(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -567,7 +567,7 @@ int SyntacticAnalyzer::variavel(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::ativacao_de_procedimentos(int index){
+int SemanticAnalyzer::ativacao_de_procedimentos(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -607,13 +607,13 @@ int SyntacticAnalyzer::ativacao_de_procedimentos(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::lista_de_expressoes(int index){
+int SemanticAnalyzer::lista_de_expressoes(int index){
 	index = expressao(index);
 	index = lista_declaracoes_variaveis_auxiliar(index);
 	return index;
 }
 
-int SyntacticAnalyzer::lista_de_expressoes_auxiliar(int index){
+int SemanticAnalyzer::lista_de_expressoes_auxiliar(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -631,7 +631,7 @@ int SyntacticAnalyzer::lista_de_expressoes_auxiliar(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::expressao(int index){
+int SemanticAnalyzer::expressao(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	index = expressao_simples(index);
@@ -651,7 +651,7 @@ int SyntacticAnalyzer::expressao(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::expressao_simples(int index){
+int SemanticAnalyzer::expressao_simples(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -670,7 +670,7 @@ int SyntacticAnalyzer::expressao_simples(int index){
 
 }
 
-int SyntacticAnalyzer::expressao_simples_auxiliar(int index){
+int SemanticAnalyzer::expressao_simples_auxiliar(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -689,13 +689,13 @@ int SyntacticAnalyzer::expressao_simples_auxiliar(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::termo(int index){
+int SemanticAnalyzer::termo(int index){
 	index = fator(index);
 	index = termo_auxiliar(index);
 	return index;
 }
 
-int SyntacticAnalyzer::termo_auxiliar(int index){
+int SemanticAnalyzer::termo_auxiliar(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -714,7 +714,7 @@ int SyntacticAnalyzer::termo_auxiliar(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::fator(int index){
+int SemanticAnalyzer::fator(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -791,7 +791,7 @@ int SyntacticAnalyzer::fator(int index){
 	exit(1);
 }
 
-int SyntacticAnalyzer::sinal(int index){
+int SemanticAnalyzer::sinal(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -808,7 +808,7 @@ int SyntacticAnalyzer::sinal(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::op_relacional(int index){
+int SemanticAnalyzer::op_relacional(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -826,7 +826,7 @@ int SyntacticAnalyzer::op_relacional(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::op_aditivo(int index){
+int SemanticAnalyzer::op_aditivo(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -843,7 +843,7 @@ int SyntacticAnalyzer::op_aditivo(int index){
 	return index;
 }
 
-int SyntacticAnalyzer::op_multiplicativo(int index){
+int SemanticAnalyzer::op_multiplicativo(int index){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);

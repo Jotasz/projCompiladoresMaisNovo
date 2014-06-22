@@ -2,11 +2,11 @@
 
 using namespace std;
 
-class SyntacticAnalyzer {
+class SemanticAnalyzer {
 public:
 	/* Funcoes de Classe */
-	SyntacticAnalyzer(string filename);
-	~SyntacticAnalyzer();
+	SemanticAnalyzer(string filename);
+	~SemanticAnalyzer();
 	/* Funcoes de Leitura */
 	string getClass(int index);
 	string getToken(int index);
@@ -50,4 +50,5 @@ private:
 	vector<string> *tokens;
 	vector<string> *classes;
 	vector<string> *linhas;
+	vector<string> *pilha;
 };
