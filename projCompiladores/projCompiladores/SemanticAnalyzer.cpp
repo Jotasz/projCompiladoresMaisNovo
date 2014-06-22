@@ -13,7 +13,6 @@ SemanticAnalyzer::SemanticAnalyzer(string filename){
 	classes = new vector<string>();
 	linhas  = new vector<string>();
 	pilha   = new vector<string>();
-	procs	= new vector<string>();
 
 	/* Leitura de Cabeçalho */
 	getline(*file, leitura);
@@ -51,7 +50,6 @@ SemanticAnalyzer::~SemanticAnalyzer(){
 	delete classes;
 	delete linhas;
 	delete pilha;
-	delete procs;
 }
 
 /* Funcoes de Vetores */
@@ -65,14 +63,6 @@ string SemanticAnalyzer::getClass(int index){
 
 string SemanticAnalyzer::getLinha(int index){
 	return linhas->at(index);
-}
-
-bool SemanticAnalyzer::isProcedure(string token){
-	int i;
-	for (i = procs->size() - 1; i >= 0; i--){
-		if (!procs->at(i).compare(token)) return true;
-	}
-	return false;
 }
 
 bool SemanticAnalyzer::isThere(string token){

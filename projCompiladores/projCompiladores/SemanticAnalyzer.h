@@ -11,7 +11,6 @@ public:
 	string getClass(int index);
 	string getToken(int index);
 	string getLinha(int index);
-	bool isProcedure(string token);
 	bool isThere(string token);
 	bool isSomewhere(string token);
 	void removeMark();
@@ -55,5 +54,4 @@ private:
 	vector<string> *classes;
 	vector<string> *linhas;
 	vector<string> *pilha;
-	vector<string> *procs;
 };
