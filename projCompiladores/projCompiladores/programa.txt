@@ -3,5 +3,25 @@ var
 	i : integer;
 	j : real;
 	X_I4S_ : real;
+	
+	procedure p(x: integer);
+		var i : integer;
+			j : real;
+			
+		procedure w(f: integer);
+		var i : integer;
+			j : real;
+		begin
+		end;
+		
+		begin
+		end;
+	
+	procedure q(x: integer);
+		var i : integer;
+			j : real;
+		begin
+		end;
+	
 begin
 end.
