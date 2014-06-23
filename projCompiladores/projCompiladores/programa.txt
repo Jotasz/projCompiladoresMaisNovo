@@ -4,5 +4,4 @@ var
 	j : real;
 	X_I4S_ : real;
 begin
-	for i < 2 to i := 4;
 end.

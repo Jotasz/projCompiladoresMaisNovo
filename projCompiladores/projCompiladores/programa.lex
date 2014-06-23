@@ -17,14 +17,5 @@ X_I4S_                        Identificador                 5
 real                          Palavra_reservada             5
 ;                             Delimitador                   5
 begin                         Palavra_reservada             6
-for                           Palavra_reservada             7
-i                             Identificador                 7
-<                             Operador_Relacional           7
-2                             Inteiro                       7
-to                            Identificador                 7
-i                             Identificador                 7
-:=                            Comando_de_Atribuicao         7
-4                             Inteiro                       7
-;                             Delimitador                   7
-end                           Palavra_reservada             8
-.                             Delimitador                   8
+end                           Palavra_reservada             7
+.                             Delimitador                   7
