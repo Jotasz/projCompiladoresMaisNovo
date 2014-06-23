@@ -11,9 +11,11 @@ public:
 	string getClass(int index);
 	string getToken(int index);
 	string getLinha(int index);
+	string getTipo(string token);
 	bool isThere(string token);
 	bool isSomewhere(string token);
 	void removeMark();
+	void removeTipo();
 	/* Funcoes de Sintaxe */
 	void analyze();
 	int programa(int index);
@@ -54,4 +56,5 @@ private:
 	vector<string> *classes;
 	vector<string> *linhas;
 	vector<string> *pilha;
+	vector<string> *tipos;
 };
