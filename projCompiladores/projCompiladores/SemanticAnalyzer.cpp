@@ -85,9 +85,10 @@ bool SemanticAnalyzer::isSomewhere(string token){
 void SemanticAnalyzer::removeMark(){
 	int i;
 	for (i = pilha->size() - 1; i >= 0; i--){
-		pilha->pop_back();
 		if (!pilha->at(i).compare("$"))	break;
+		pilha->pop_back();
 	}
+	pilha->pop_back();
 }
 
 /* Funcoes de Sintaxe */
@@ -248,8 +249,8 @@ int SemanticAnalyzer::lista_de_identificadores(int index){
 		exit(1);
 	}
 
-	if(!isThere(tokenLido)){
-		cout << "ERRO: "<< linhaLida << "Redefinição do identificador " << tokenLido << "!" << endl;
+	if(isThere(tokenLido)){
+		cout << "ERRO: "<< linhaLida << "!    Redefinicao do identificador " << tokenLido << "!" << endl;
 		exit(2);
 	}
 
@@ -274,8 +275,8 @@ int SemanticAnalyzer::lista_de_identificadores_auxiliar(int index){
 		index++;
 		if(!classeLida.compare("Identificador")){
 			
-			if(!isThere(tokenLido)){
-				cout << "ERRO: "<< linhaLida << "Redefinição do identificador " << tokenLido << "!" << endl;
+			if(isThere(tokenLido)){
+				cout << "ERRO: "<< linhaLida << "!  Redefinicao do identificador " << tokenLido << "!" << endl;
 				exit(2);	
 			}
 			pilha->push_back(tokenLido);
@@ -356,8 +357,8 @@ int SemanticAnalyzer::declaracao_de_subprograma(int index){
 	}
 
 	
-	if(!isThere(tokenLido)){
-		cout << "ERRO: "<< linhaLida << "Redefinição do identificador " << tokenLido << "!" << endl;
+	if(isThere(tokenLido)){
+		cout << "ERRO: "<< linhaLida << "    Redefinicao do identificador " << tokenLido << "!" << endl;
 		exit(2);	
 	}
 	
