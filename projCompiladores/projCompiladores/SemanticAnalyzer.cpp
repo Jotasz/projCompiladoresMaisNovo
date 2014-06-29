@@ -673,6 +673,26 @@ int SemanticAnalyzer::comando(int index){
 		pct->push_back(":=");
 		index++;
 		index = expressao(index, pct);
+
+		string vd = pct->back();
+		pct->pop_back();
+		string operador = pct->back();
+		pct->pop_back();
+		string ve = pct->back();
+		pct->pop_back();
+		pct->push_back(checkTable(operador, ve, vd));
+
+		/*Verificar se tem só um tipo na pct*/
+		if(pct->size() > 1){
+			cout <<"ERRO: " << linhaLida << "    Operacao mal estruturada " << endl;
+		}else if (!pct->back().compare("Tipo_Invalido")){
+			cout <<"ERRO: " << linhaLida << "    Tipos incompativeis " << endl;
+		}else if (!pct->back().compare("Chamada_Invalida")){
+			cout <<"ERRO: " << linhaLida << "    Checktable errado " << endl;
+		}
+
+		delete pct;
+
 		return index;
 	}
 
@@ -851,23 +871,49 @@ int SemanticAnalyzer::expressao(int index, vector<string> *pct){
 	index = op_relacional(index,pct);
 	index = expressao_simples(index,pct);
 
+	string vd = pct->back();
+	pct->pop_back();
+	string operador = pct->back();
+	pct->pop_back();
+	string ve = pct->back();
+	pct->pop_back();
+	pct->push_back(checkTable(operador, ve, vd));
+
 	return index;
 }
 
 int SemanticAnalyzer::expressao_simples(int index, vector<string> *pct){
 	string tokenLido, classeLida, linhaLida;
-
+	bool opSinal = false;
 	tokenLido = getToken(index);
 	classeLida = getClass(index);
 	linhaLida = getLinha(index);
 
-	if (!tokenLido.compare("+") && !tokenLido.compare("-")){
+	if (!tokenLido.compare("+") || !tokenLido.compare("-")){
 		/* Significa que começa com sinal */
 		index = sinal(index,pct);
+		opSinal = true;
 	}
 
 	index = termo(index, pct);
 	index = expressao_simples_auxiliar(index, pct);
+
+	/*string vd = pct->back();
+	pct->pop_back();
+	string operador = pct->back();
+	pct->pop_back();
+	string ve = pct->back();
+	pct->pop_back();
+	pct->push_back(checkTable(operador, ve, vd));*/
+
+	if (opSinal){
+		string vd = pct->back();
+		pct->pop_back();
+		string operador = pct->back();
+		pct->pop_back();
+		pct->push_back(checkTable(operador,vd));
+	}
+
 	return index;
 
 
@@ -889,12 +935,29 @@ int SemanticAnalyzer::expressao_simples_auxiliar(int index,vector<string> *pct){
 	index = termo(index,pct);
 	index = expressao_simples_auxiliar(index,pct);
 
+	string vd = pct->back();
+	pct->pop_back();
+	string operador = pct->back();
+	pct->pop_back();
+	string ve = pct->back();
+	pct->pop_back();
+	pct->push_back(checkTable(operador, ve, vd));
+
 	return index;
 }
 
 int SemanticAnalyzer::termo(int index,vector<string> *pct){
 	index = fator(index,pct);
 	index = termo_auxiliar(index,pct);
+
+	/*string vd = pct->back();
+	pct->pop_back();
+	string operador = pct->back();
+	pct->pop_back();
+	string ve = pct->back();
+	pct->pop_back();
+	pct->push_back(checkTable(operador, ve, vd));*/
+
 	return index;
 }
 
@@ -914,6 +977,15 @@ int SemanticAnalyzer::termo_auxiliar(int index,vector<string> *pct){
 	index = op_multiplicativo(index,pct);
 	index = fator(index,pct);
 	index = termo_auxiliar(index,pct);
+
+	string vd = pct->back();
+	pct->pop_back();
+	string operador = pct->back();
+	pct->pop_back();
+	string ve = pct->back();
+	pct->pop_back();
+	pct->push_back(checkTable(operador, ve, vd));
+
 	return index;
 }
 
@@ -932,9 +1004,11 @@ int SemanticAnalyzer::fator(int index,vector<string> *pct){
 			cout << "Identificador " << tokenLido << " não encontrado nesse escopo!" << endl;
 		}
 		
+		pct->push_back(getTipo(tokenLido));
 		tokenLido = getToken(index);
 		classeLida = getClass(index);
 		linhaLida = getLinha(index);
+		
 
 		if (!tokenLido.compare("(")){
 			/* Significa que o parêntese foi aberto */
@@ -957,7 +1031,6 @@ int SemanticAnalyzer::fator(int index,vector<string> *pct){
 		}
 		else {
 			/* Significa que é um identificador isolado */
-			pct->push_back(getTipo(tokenLido));
 			return index;
 		}
 	}
@@ -985,6 +1058,12 @@ int SemanticAnalyzer::fator(int index,vector<string> *pct){
 	if (!tokenLido.compare("not")){
 		pct->push_back(tokenLido);
 		index = fator(index,pct);
+		string vd = pct->back();
+		pct->pop_back();
+		string operador = pct->back();
+		pct->pop_back();
+		pct->push_back(checkTable(operador, vd));
+
 		return index;
 	}
 
@@ -1044,6 +1123,8 @@ int SemanticAnalyzer::op_relacional(int index,vector<string> *pct){
 		cout << "ERRO: " << linhaLida << " Esperado um operador relacional = < > <= >= <>" << endl;
 		exit(1);
 	}
+
+	pct->push_back(tokenLido);
 
 	return index;
 }
