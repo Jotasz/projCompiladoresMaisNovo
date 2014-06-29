@@ -54,6 +54,85 @@ SemanticAnalyzer::~SemanticAnalyzer(){
 	delete tipos;
 }
 
+/* Funções de Semântica */
+string SemanticAnalyzer::checkTable(string op, string val){
+	if (!op.compare("+") || !op.compare("-")){
+		/* Operações de Sinal */
+		if (!val.compare("Booleano")){
+			return "Tipo_Invalido";
+		}
+		if (!val.compare("Inteiro")){
+			return "Inteiro";
+		}
+		if (!val.compare("Real")){
+			return "Real";
+		}
+	}
+	
+	if (!op.compare("not")){
+		if (!val.compare("Booleano")){
+			return "Booleano";
+		}
+		return "Tipo_Invalido";
+	}
+
+	return "Chamada_Invalida";
+}
+
+string SemanticAnalyzer::checkTable(string op, string valLeft, string valRight){
+	if (!op.compare("+") || !op.compare("-") || !op.compare("*") || !op.compare("/")){
+		/* Operações aritméticas */
+		if (!valLeft.compare("Booleano") || !valRight.compare("Booleano")){
+			/* Um dos dois é booleano */
+			return "Tipo_Invalido";
+		}
+		if (!valLeft.compare("Real") || !valRight.compare("Real")){
+			/* Um dos dois é real */
+			return "Real";
+		}
+		if (!valLeft.compare("Inteiro") && !valRight.compare("Inteiro")){
+			/* Ambos são inteiros */
+			return "Inteiro";
+		}
+	}
+
+	if (!op.compare("=") || !op.compare("<>")){
+		/* Operações relacionais genéricas */
+		if (!valLeft.compare("Booleano") && !valRight.compare("Booleano")){
+			/* Ambos são booleanos */
+			return "Booleano";
+		}
+		if (!valLeft.compare("Booleano") || !valRight.compare("Booleano")){
+			/* Um dos dois é booleano, mas o outro não */
+			return "Tipo_Invalido";
+		}
+		/* Nenhum é booleano */
+		return "Booleano";
+	}
+
+	if (!op.compare("<") || !op.compare(">") || !op.compare("<=") || !op.compare(">=")){
+		/* Operações relacionais aritméticas */
+		if (!valLeft.compare("Booleano") || !valRight.compare("Booleano")){
+			/* Um dos dois é booleano */
+			return "Tipo_Invalido";
+		}
+		/* Nenhum dos dois é booleano */
+		return "Booleano";
+	}
+
+	if (!op.compare("and") || !op.compare("or")){
+		/* Operações lógicas */
+		if (!valLeft.compare("Booleano") && !valRight.compare("Booleano")){
+			/* Ambos são booleanos */
+			return "Booleano";
+		}
+		/* Um dos dois não é booleano */
+		return "Tipo_Invalido";
+	}
+
+	return "Chamada_Invalida";
+}
+
 /* Funcoes de Vetores */
 string SemanticAnalyzer::getToken(int index){
 	return tokens->at(index);

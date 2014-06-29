@@ -16,6 +16,9 @@ public:
 	bool isSomewhere(string token);
 	void removeMark();
 	void removeTipo();
+	/* Funções de Semântica */
+	string checkTable(string op, string val);
+	string checkTable(string op, string valLeft, string valRight);
 	/* Funcoes de Sintaxe */
 	void analyze();
 	int programa(int index);

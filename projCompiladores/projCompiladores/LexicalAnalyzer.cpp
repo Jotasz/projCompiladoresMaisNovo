@@ -19,7 +19,6 @@ LexicalAnalyzer::LexicalAnalyzer(){
 	restricted_word->push_back("else");
 	restricted_word->push_back("while");
 	restricted_word->push_back("do");
-	restricted_word->push_back("not");
 }
 
 LexicalAnalyzer::~LexicalAnalyzer(){
@@ -76,6 +75,31 @@ void LexicalAnalyzer::analyze(ifstream *code){
 					lexToken newTok(counter, word, "Real");
 					token->push_back(newTok);
 					i +=aux;
+				}
+				/* Valores Booleanos */
+				if (reading[i] == 't' && reading[i + 1] == 'r' && reading[i + 2] == 'u' && reading[i + 3] == 'e' && reading[i + 4] != '_'
+					&& !isNumber(reading[i + 4] && !isLetter(reading[i + 4]))){
+					tk[0] = reading[i];	tk[1] = reading[i + 1];	tk[2] = reading[i + 2]; tk[3] = reading[i + 3]; tk[4] = '\0';
+					string word(tk);
+					lexToken newTok(counter, word, "Booleano");
+					token->push_back(newTok);
+					i += 4;
+				}
+				else if (reading[i] == 'f' && reading[i + 1] == 'a' && reading[i + 2] == 'l' && reading[i + 3] == 's' && reading[i + 4] == 'e'
+					&& reading[i + 5] != '_' && !isNumber(reading[i + 5]) && !isLetter(reading[i + 5])){
+						tk[0] = reading[i];	tk[1] = reading[i + 1];	tk[2] = reading[i + 2]; tk[3] = reading[i + 3]; tk[4] = reading[i + 4]; tk[5] = '\0';
+						string word(tk);
+						lexToken newTok(counter, word, "Booleano");
+						token->push_back(newTok);
+						i += 5;
+				}
+				/* Operador de Negação */
+				else if (reading[i] == 'n' && reading[i + 1] == 'o' && reading[i + 2] == 't' && reading[i + 3] != '_' && !isNumber(reading[i + 3]) && !isLetter(reading[i + 3])){
+					tk[0] = reading[i];	tk[1] = reading[i + 1];	tk[2] = reading[i + 2]; tk[3] = '\0';
+					string word(tk);
+					lexToken newTok(counter, word, "Operador_Negacao");
+					token->push_back(newTok);
+					i += 3;
 				}
 				/* Operadores Relacionais */
 				else if (reading[i] == '<' && reading[i + 1] == '='){
