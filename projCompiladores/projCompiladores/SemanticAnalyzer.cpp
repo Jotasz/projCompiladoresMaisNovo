@@ -425,6 +425,21 @@ int SemanticAnalyzer::tipo(int index){
 		exit(1);
 	}
 
+	while (tipos->size() != pilha->size()){
+		if (!tokenLido.compare("integer")){
+			tipos->push_back("Inteiro");
+		}
+		else if (!tokenLido.compare("real")){
+			tipos->push_back("Real");
+		}
+		else if (!tokenLido.compare("boolean")){
+			tipos->push_back("Booleano");
+		}
+		else {
+			tipos->push_back("ERRO em alguam coisa que eu fiz!");
+		}
+	}
+
 	return index;
 
 }
