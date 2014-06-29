@@ -130,6 +130,26 @@ string SemanticAnalyzer::checkTable(string op, string valLeft, string valRight){
 		return "Tipo_Invalido";
 	}
 
+	if (!op.compare(":=")){
+		/* Operação de Atribuição */
+		if (!valLeft.compare("Booleano") && !valRight.compare("Booleano")){
+			/* Ambos são booleanos */
+			return "Booleano";
+		}
+		if (!valLeft.compare("Booleano") || !valRight.compare("Booleano")){
+			/* Um dos dois é booleano */
+			return "Tipo_Invalido";
+		}
+		if (!valLeft.compare("Real")){
+			/* O recebedor é real */
+			return "Real";
+		}
+		if (!valLeft.compare("Inteiro")){
+			/*O recebedor é inteiro */
+			return "Inteiro";
+		}
+	}
+	
 	return "Chamada_Invalida";
 }
 
