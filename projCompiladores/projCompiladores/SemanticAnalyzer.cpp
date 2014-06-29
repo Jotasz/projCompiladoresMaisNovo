@@ -655,7 +655,7 @@ int SemanticAnalyzer::comando(int index){
 			index = ativacao_de_procedimentos(index,pct);
 			return index;
 		}
-
+		pct->push_back(":=");
 		index++;
 		index = expressao(index, pct);
 		return index;
@@ -916,7 +916,7 @@ int SemanticAnalyzer::fator(int index,vector<string> *pct){
 		if(!isSomewhere(tokenLido)){
 			cout << "Identificador " << tokenLido << " não encontrado nesse escopo!" << endl;
 		}
-
+		
 		tokenLido = getToken(index);
 		classeLida = getClass(index);
 		linhaLida = getLinha(index);
@@ -942,23 +942,34 @@ int SemanticAnalyzer::fator(int index,vector<string> *pct){
 		}
 		else {
 			/* Significa que é um identificador isolado */
+			pct->push_back(getTipo(tokenLido));
 			return index;
 		}
 	}
 
 	if (!classeLida.compare("Inteiro")){
+		pct->push_back(classeLida);
 		return index;
 	}
 
 	if (!classeLida.compare("Real")){
+		pct->push_back(classeLida);
 		return index;
 	}
 
 	if (!tokenLido.compare("true")){
+		pct->push_back(classeLida);
 		return index;
 	}
 
 	if (!tokenLido.compare("false")){
+		pct->push_back(classeLida);
+		return index;
+	}
+
+	if (!tokenLido.compare("not")){
+		pct->push_back(tokenLido);
+		index = fator(index,pct);
 		return index;
 	}
 
@@ -975,6 +986,8 @@ int SemanticAnalyzer::fator(int index,vector<string> *pct){
 			cout << "ERRO: " << linhaLida << " Parêntese aberto e não fechado" << endl;
 			exit(1);
 		}
+
+
 
 		return index;
 	}
@@ -996,6 +1009,8 @@ int SemanticAnalyzer::sinal(int index,vector<string> *pct){
 		cout << "ERRO: " << linhaLida << " Esperado um sinal + -" << endl;
 		exit(1);
 	}
+
+	pct->push_back(tokenLido);
 
 	return index;
 }
@@ -1032,6 +1047,7 @@ int SemanticAnalyzer::op_aditivo(int index,vector<string> *pct){
 		exit(1);
 	}
 
+	pct->push_back(tokenLido);
 	return index;
 }
 
@@ -1048,6 +1064,8 @@ int SemanticAnalyzer::op_multiplicativo(int index,vector<string> *pct){
 		cout << "ERRO: " << linhaLida << " Esperado um operador multiplicativo + - and" << endl;
 		exit(1);
 	}
+
+	pct->push_back(tokenLido);
 
 	return index;
 }
