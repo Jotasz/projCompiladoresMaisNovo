@@ -38,7 +38,7 @@ public:
 	int comandos_opcionais(int index);
 	int lista_de_comandos(int index);
 	int lista_de_comandos_auxiliar(int index);
-	int comando(int index, vector<string> pct);
+	int comando(int index);
 	int parte_else(int index);
 	int variavel(int index, vector<string> pct);
 	int ativacao_de_procedimentos(int index, vector<string> pct);
