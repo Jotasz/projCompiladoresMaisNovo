@@ -56,6 +56,10 @@ SemanticAnalyzer::~SemanticAnalyzer(){
 
 /* Funções de Semântica */
 string SemanticAnalyzer::checkTable(string op, string val){
+	if (!val.compare("Tipo_Invalido")){
+		return "Tipo_Invalido";
+	}
+	
 	if (!op.compare("+") || !op.compare("-")){
 		/* Operações de Sinal */
 		if (!val.compare("Booleano")){
@@ -80,6 +84,10 @@ string SemanticAnalyzer::checkTable(string op, string val){
 }
 
 string SemanticAnalyzer::checkTable(string op, string valLeft, string valRight){
+	if (!valLeft.compare("Tipo_Invalido") || !valRight.compare("Tipo_Invalido")){
+		return "Tipo_Invalido";
+	}
+	
 	if (!op.compare("+") || !op.compare("-") || !op.compare("*") || !op.compare("/")){
 		/* Operações aritméticas */
 		if (!valLeft.compare("Booleano") || !valRight.compare("Booleano")){
@@ -491,6 +499,8 @@ int SemanticAnalyzer::declaracao_de_subprograma(int index){
 	
 	pilha->push_back(tokenLido);
 	pilha->push_back("$");
+	
+	tipos->push_back("Tipo_Invalido");
 	tipos->push_back("$");
 
 	index = argumentos(index);
