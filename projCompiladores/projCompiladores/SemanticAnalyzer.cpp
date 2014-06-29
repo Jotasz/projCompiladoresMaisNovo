@@ -635,6 +635,7 @@ int SemanticAnalyzer::comando(int index){
 	tokenLido = getToken(index);
 	classeLida = getClass(index);
 	linhaLida = getLinha(index);
+	vector<string> *pct = new vector<string>();
 
 	if (!classeLida.compare("Identificador")){
 		if(!isSomewhere(tokenLido)){
@@ -642,20 +643,21 @@ int SemanticAnalyzer::comando(int index){
 			exit(2);
 		}
 		/* Significa que é um identificador */
+		pct->push_back(getTipo(tokenLido));
 		index++;
-
+		
 		tokenLido = getToken(index);
 		classeLida = getClass(index);
 		linhaLida = getLinha(index);
 
 		if (tokenLido.compare(":=")){
 			/* Significa que é ativação de procedimento */
-			index = ativacao_de_procedimentos(index);
+			index = ativacao_de_procedimentos(index,pct);
 			return index;
 		}
 
 		index++;
-		index = expressao(index);
+		index = expressao(index, pct);
 		return index;
 	}
 
@@ -668,7 +670,7 @@ int SemanticAnalyzer::comando(int index){
 	if (!tokenLido.compare("if")){
 		index++;
 
-		index = expressao(index);
+		index = expressao(index,pct);
 
 		tokenLido = getToken(index);
 		classeLida = getClass(index);
@@ -689,7 +691,7 @@ int SemanticAnalyzer::comando(int index){
 	if (!tokenLido.compare("while")){
 		index++;
 
-		index = expressao(index);
+		index = expressao(index,pct);
 
 		tokenLido = getToken(index);
 		classeLida = getClass(index);
@@ -728,7 +730,7 @@ int SemanticAnalyzer::parte_else(int index){
 	return index;
 }
 
-int SemanticAnalyzer::variavel(int index){
+int SemanticAnalyzer::variavel(int index,vector<string> *pct){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -749,7 +751,7 @@ int SemanticAnalyzer::variavel(int index){
 	return index;
 }
 
-int SemanticAnalyzer::ativacao_de_procedimentos(int index){
+int SemanticAnalyzer::ativacao_de_procedimentos(int index,vector<string> *pct){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -777,7 +779,7 @@ int SemanticAnalyzer::ativacao_de_procedimentos(int index){
 	}
 
 	index++;
-	index = lista_de_expressoes(index);
+	index = lista_de_expressoes(index,pct);
 
 	tokenLido = getToken(index);
 	classeLida = getClass(index);
@@ -793,13 +795,13 @@ int SemanticAnalyzer::ativacao_de_procedimentos(int index){
 	return index;
 }
 
-int SemanticAnalyzer::lista_de_expressoes(int index){
-	index = expressao(index);
+int SemanticAnalyzer::lista_de_expressoes(int index,vector<string> *pct){
+	index = expressao(index,pct);
 	index = lista_declaracoes_variaveis_auxiliar(index);
 	return index;
 }
 
-int SemanticAnalyzer::lista_de_expressoes_auxiliar(int index){
+int SemanticAnalyzer::lista_de_expressoes_auxiliar(int index,vector<string> *pct){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -812,15 +814,15 @@ int SemanticAnalyzer::lista_de_expressoes_auxiliar(int index){
 	}
 
 	index++;
-	index = expressao(index);
-	index = lista_de_expressoes_auxiliar(index);
+	index = expressao(index,pct);
+	index = lista_de_expressoes_auxiliar(index,pct);
 	return index;
 }
 
-int SemanticAnalyzer::expressao(int index){
+int SemanticAnalyzer::expressao(int index, vector<string> *pct){
 	string tokenLido, classeLida, linhaLida;
 
-	index = expressao_simples(index);
+	index = expressao_simples(index,pct);
 
 	tokenLido = getToken(index);
 	classeLida = getClass(index);
@@ -831,13 +833,13 @@ int SemanticAnalyzer::expressao(int index){
 		return index;
 	}
 
-	index = op_relacional(index);
-	index = expressao_simples(index);
+	index = op_relacional(index,pct);
+	index = expressao_simples(index,pct);
 
 	return index;
 }
 
-int SemanticAnalyzer::expressao_simples(int index){
+int SemanticAnalyzer::expressao_simples(int index, vector<string> *pct){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -846,17 +848,17 @@ int SemanticAnalyzer::expressao_simples(int index){
 
 	if (!tokenLido.compare("+") && !tokenLido.compare("-")){
 		/* Significa que começa com sinal */
-		index = sinal(index);
+		index = sinal(index,pct);
 	}
 
-	index = termo(index);
-	index = expressao_simples_auxiliar(index);
+	index = termo(index, pct);
+	index = expressao_simples_auxiliar(index, pct);
 	return index;
 
 
 }
 
-int SemanticAnalyzer::expressao_simples_auxiliar(int index){
+int SemanticAnalyzer::expressao_simples_auxiliar(int index,vector<string> *pct){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -868,20 +870,20 @@ int SemanticAnalyzer::expressao_simples_auxiliar(int index){
 		return index;
 	}
 
-	index = op_aditivo(index);
-	index = termo(index);
-	index = expressao_simples_auxiliar(index);
+	index = op_aditivo(index,pct);
+	index = termo(index,pct);
+	index = expressao_simples_auxiliar(index,pct);
 
 	return index;
 }
 
-int SemanticAnalyzer::termo(int index){
-	index = fator(index);
-	index = termo_auxiliar(index);
+int SemanticAnalyzer::termo(int index,vector<string> *pct){
+	index = fator(index,pct);
+	index = termo_auxiliar(index,pct);
 	return index;
 }
 
-int SemanticAnalyzer::termo_auxiliar(int index){
+int SemanticAnalyzer::termo_auxiliar(int index,vector<string> *pct){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -894,13 +896,13 @@ int SemanticAnalyzer::termo_auxiliar(int index){
 	}
 
 	/* Significa que não é vazio. Não precisa incrementar já que op_multiplicativo lerá essa mesma linha */
-	index = op_multiplicativo(index);
-	index = fator(index);
-	index = termo_auxiliar(index);
+	index = op_multiplicativo(index,pct);
+	index = fator(index,pct);
+	index = termo_auxiliar(index,pct);
 	return index;
 }
 
-int SemanticAnalyzer::fator(int index){
+int SemanticAnalyzer::fator(int index,vector<string> *pct){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -923,7 +925,7 @@ int SemanticAnalyzer::fator(int index){
 			/* Significa que o parêntese foi aberto */
 			index++;
 
-			index = lista_de_expressoes(index);
+			index = lista_de_expressoes(index,pct);
 
 			tokenLido = getToken(index);
 			classeLida = getClass(index);
@@ -961,7 +963,7 @@ int SemanticAnalyzer::fator(int index){
 	}
 
 	if (!tokenLido.compare("(")){
-		index = expressao(index);
+		index = expressao(index,pct);
 
 		tokenLido = getToken(index);
 		classeLida = getClass(index);
@@ -981,7 +983,7 @@ int SemanticAnalyzer::fator(int index){
 	exit(1);
 }
 
-int SemanticAnalyzer::sinal(int index){
+int SemanticAnalyzer::sinal(int index,vector<string> *pct){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -998,7 +1000,7 @@ int SemanticAnalyzer::sinal(int index){
 	return index;
 }
 
-int SemanticAnalyzer::op_relacional(int index){
+int SemanticAnalyzer::op_relacional(int index,vector<string> *pct){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -1016,7 +1018,7 @@ int SemanticAnalyzer::op_relacional(int index){
 	return index;
 }
 
-int SemanticAnalyzer::op_aditivo(int index){
+int SemanticAnalyzer::op_aditivo(int index,vector<string> *pct){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
@@ -1033,7 +1035,7 @@ int SemanticAnalyzer::op_aditivo(int index){
 	return index;
 }
 
-int SemanticAnalyzer::op_multiplicativo(int index){
+int SemanticAnalyzer::op_multiplicativo(int index,vector<string> *pct){
 	string tokenLido, classeLida, linhaLida;
 
 	tokenLido = getToken(index);
