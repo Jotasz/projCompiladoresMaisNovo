@@ -231,7 +231,10 @@ void SemanticAnalyzer::analyze(){
 int SemanticAnalyzer::programa(int index){
 	
 	string tokenLido, classeLida, linhaLida, linhaBuffer;
+	
 	pilha->push_back("$");
+	tipos->push_back("$");
+	
 	tokenLido = getToken(index);
 	linhaLida = getLinha(index);
 	index++;
@@ -273,7 +276,6 @@ int SemanticAnalyzer::programa(int index){
 int SemanticAnalyzer::declaracoes_variaveis(int index){
 	
 	string tokenLido, classeLida, linhaLida, linhaBuffer;
-
 	
 	tokenLido = getToken(index);
 	if(!tokenLido.compare("var")){
@@ -297,16 +299,6 @@ int SemanticAnalyzer::lista_declaracoes_variaveis(int index){
 		exit(1);
 	}
 
-	/*linhaLida   = getLinha(index);
-	tokenLido   = getToken(index);
-	classeLida  = getClass(index);
-	index++;
-
-	if(classeLida.compare("Inteiro") && classeLida.compare("Real") && classeLida.compare("Booleano")){
-		cout <<"ERRO: " << linhaLida << "   Necessario tipo após lista de variaveis" << endl;
-		exit(1);
-	}*/
-
 	index = tipo(index);
 
 	linhaLida   = getLinha(index);
@@ -326,8 +318,6 @@ int SemanticAnalyzer::lista_declaracoes_variaveis(int index){
 
 int SemanticAnalyzer::lista_declaracoes_variaveis_auxiliar(int index){
 	string tokenLido, classeLida, linhaLida;
-
-
 
 	linhaLida   = getLinha(index);
 	tokenLido   = getToken(index);
@@ -501,7 +491,7 @@ int SemanticAnalyzer::declaracao_de_subprograma(int index){
 	
 	pilha->push_back(tokenLido);
 	pilha->push_back("$");
-
+	tipos->push_back("$");
 
 	index = argumentos(index);
 	tokenLido = getToken(index);
