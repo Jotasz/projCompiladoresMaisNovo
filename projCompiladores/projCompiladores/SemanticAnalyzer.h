@@ -1,4 +1,4 @@
-#include <vector>
+﻿#include <vector>
 
 using namespace std;
 
@@ -40,20 +40,20 @@ public:
 	int lista_de_comandos_auxiliar(int index);
 	int comando(int index);
 	int parte_else(int index);
-	int variavel(int index, vector<string> pct);
-	int ativacao_de_procedimentos(int index, vector<string> pct);
-	int lista_de_expressoes(int index, vector<string> pct);
-	int lista_de_expressoes_auxiliar(int index, vector<string> pct);
-	int expressao(int index, vector<string> pct);
-	int expressao_simples(int index, vector<string> pct);
-	int expressao_simples_auxiliar(int index, vector<string> pct);
-	int termo(int index, vector<string> pct);
-	int termo_auxiliar(int index, vector<string> pct);
-	int fator(int index, vector<string> pct);
-	int sinal(int index, vector<string> pct);
-	int op_relacional(int index, vector<string> pct);
-	int op_aditivo(int index, vector<string> pct);
-	int op_multiplicativo(int index, vector<string> pct);
+	int variavel(int index, vector<string> *pct);
+	int ativacao_de_procedimentos(int index, vector<string> *pct);
+	int lista_de_expressoes(int index, vector<string> *pct);
+	int lista_de_expressoes_auxiliar(int index, vector<string> *pct);
+	int expressao(int index, vector<string> *pct);
+	int expressao_simples(int index, vector<string> *pct);
+	int expressao_simples_auxiliar(int index, vector<string> *pct);
+	int termo(int index, vector<string> *pct);
+	int termo_auxiliar(int index, vector<string> *pct);
+	int fator(int index, vector<string> *pct);
+	int sinal(int index, vector<string> *pct);
+	int op_relacional(int index, vector<string> *pct);
+	int op_aditivo(int index, vector<string> *pct);
+	int op_multiplicativo(int index, vector<string> *pct);
 private:
 	vector<string> *tokens;
 	vector<string> *classes;
