@@ -707,6 +707,16 @@ int SemanticAnalyzer::comando(int index){
 
 		index = expressao(index,pct);
 
+		if(pct->size() > 1){
+			cout <<"ERRO: " << linhaLida << "    Operacao mal estruturada " << endl;
+		}else if (!pct->back().compare("Tipo_Invalido")){
+			cout <<"ERRO: " << linhaLida << "    Tipos incompativeis " << endl;
+		}else if (!pct->back().compare("Chamada_Invalida")){
+			cout <<"ERRO: " << linhaLida << "    Checktable errado " << endl;
+		}else if(pct->back().compare("Booleano")){
+			cout <<"ERRO: " << linhaLida << "    Esperada uma expressao booleana como condicao do if " << endl;
+		}
+
 		tokenLido = getToken(index);
 		classeLida = getClass(index);
 		linhaLida = getLinha(index);
@@ -720,6 +730,8 @@ int SemanticAnalyzer::comando(int index){
 		index++;
 		index = comando(index);
 		index = parte_else(index);
+
+		delete pct;
 		return index;
 	}
 
@@ -727,6 +739,16 @@ int SemanticAnalyzer::comando(int index){
 		index++;
 
 		index = expressao(index,pct);
+
+		if(pct->size() > 1){
+			cout <<"ERRO: " << linhaLida << "    Operacao mal estruturada " << endl;
+		}else if (!pct->back().compare("Tipo_Invalido")){
+			cout <<"ERRO: " << linhaLida << "    Tipos incompativeis " << endl;
+		}else if (!pct->back().compare("Chamada_Invalida")){
+			cout <<"ERRO: " << linhaLida << "    Checktable errado " << endl;
+		}else if(pct->back().compare("Booleano")){
+			cout <<"ERRO: " << linhaLida << "    Esperada uma expressao booleana como condicao do while " << endl;
+		}
 
 		tokenLido = getToken(index);
 		classeLida = getClass(index);
@@ -740,6 +762,8 @@ int SemanticAnalyzer::comando(int index){
 
 		index++;
 		index = comando(index);
+
+		delete pct;
 		return index;
 	}
 
